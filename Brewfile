@@ -1,0 +1,5 @@
+tap "unikraft/tap"
+brew "chezmoi"
+brew "gh"
+brew "starship"
+brew "unikraft/tap/kraftkit"
