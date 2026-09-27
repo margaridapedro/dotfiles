@@ -1,5 +1,18 @@
 export PATH="$HOME/.local/bin:$PATH"
 
-# last step, start starship
+# general alias
+alias ls='ls --color=auto'
+alias ll='ls -lF'
+alias la='ls -A'
+
+# zsh autocompletion
+autoload -Uz compinit
+compinit
+
+# kubectl
+alias kk='kubectl'
+source <(kubectl completion zsh)
+
+# prompt
 eval "$(starship init zsh)"
 
