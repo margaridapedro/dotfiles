@@ -1,0 +1,25 @@
+#!/bin/bash
+# Re-runs whenever this file's rendered contents change.
+set -euo pipefail
+
+if ! command -v brew >/dev/null 2>&1; then
+    if [ -x /opt/homebrew/bin/brew ]; then
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+    else
+        echo "Homebrew not found, install it from https://brew.sh first" >&2
+        exit 1
+    fi
+fi
+
+brew bundle --file=- <<EOF
+brew "chezmoi"
+brew "gh"
+brew "starship"
+brew "uv"
+{{- if eq .machine "personal" }}
+
+tap "unikraft/tap"
+brew "node@24", link: true
+brew "unikraft/tap/kraftkit"
+{{- end }}
+EOF

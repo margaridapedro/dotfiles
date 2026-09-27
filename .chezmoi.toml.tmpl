@@ -1,0 +1,10 @@
+{{- $machine := promptChoiceOnce . "machine" "Machine type" (list "personal" "work") -}}
+{{- $defaultEmail := "" -}}
+{{- if eq $machine "personal" -}}
+{{-   $defaultEmail = "23613003+margaridapedro@users.noreply.github.com" -}}
+{{- end -}}
+{{- $email := promptStringOnce . "email" "Git email" $defaultEmail -}}
+
+[data]
+    machine = {{ $machine | quote }}
+    email = {{ $email | quote }}
