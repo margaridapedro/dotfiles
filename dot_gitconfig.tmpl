@@ -1,3 +1,9 @@
 [user]
-	name = Margarida Pedro
-	email = {{ .email }}
+    name = Margarida Pedro
+    email = {{ .email }}
+
+{{- if not (regexMatch "(gmail|github)\\.com$" .email) }}
+[include]
+    path = ~/.gitconfig.d/work.gitconfig
+{{- end }}
+

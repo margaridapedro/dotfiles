@@ -5,6 +5,9 @@ alias ls='ls --color=auto'
 alias ll='ls -lF'
 alias la='ls -A'
 
+# chezmoi work hack
+alias chezwork='chezmoi -S ~/.local/share/chezmoi_work -c ~/.config/chezmoi_work/chezmoi.toml'
+
 # zsh autocompletion
 autoload -Uz compinit
 compinit
