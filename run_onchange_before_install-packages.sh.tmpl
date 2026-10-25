@@ -1,5 +1,10 @@
 #!/bin/bash
-# Re-runs whenever this file's rendered contents change.
+# Re-runs whenever a Brewfile below changes (hashes are embedded in the rendered script).
+# Brewfile hash: {{ include "Brewfile" | sha256sum }}
+{{- $machineBrewfile := printf "Brewfile.%s" .machine }}
+{{- if stat (joinPath .chezmoi.sourceDir $machineBrewfile) }}
+# {{ $machineBrewfile }} hash: {{ include $machineBrewfile | sha256sum }}
+{{- end }}
 set -euo pipefail
 
 if ! command -v brew >/dev/null 2>&1; then
@@ -11,16 +16,7 @@ if ! command -v brew >/dev/null 2>&1; then
     fi
 fi
 
-brew bundle --file=- <<EOF
-brew "chezmoi"
-brew "gh"
-brew "starship"
-brew "uv"
-cask "supacode"
-{{- if eq .machine "personal" }}
-
-tap "unikraft/tap"
-brew "node@24", link: true
-brew "unikraft/tap/kraftkit"
+brew bundle --file={{ joinPath .chezmoi.sourceDir "Brewfile" | quote }}
+{{- if stat (joinPath .chezmoi.sourceDir $machineBrewfile) }}
+brew bundle --file={{ joinPath .chezmoi.sourceDir $machineBrewfile | quote }}
 {{- end }}
-EOF
