@@ -1,5 +1,4 @@
 # Open-source, cross-platform JavaScript runtime environment
 brew "node@24", link: true
-npm "corepack"
 # Extremely fast Python package installer and resolver, written in Rust
 brew "uv"
