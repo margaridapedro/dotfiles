@@ -2,6 +2,9 @@
     name = Margarida Pedro
     email = {{ .email }}
 
+[init]
+    defaultBranch = main
+
 {{- if not (regexMatch "(gmail|github)\\.com$" .email) }}
 [include]
     path = ~/.gitconfig.d/work.gitconfig
