@@ -1,0 +1,16 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- /* Renders the ignored zshrc source file, then a marker, then whatever sits below
+       the marker in the existing ~/.zshrc, so lines other tools append survive applies. */ -}}
+{{- $managed := include "zshrc" -}}
+{{- $marker := "# ---- chezmoi: lines below this marker are not managed ----" -}}
+{{- $sep := printf "%s\n" $marker -}}
+{{- $parts := splitList $sep .chezmoi.stdin -}}
+{{- $rest := "" -}}
+{{- if gt (len $parts) 1 -}}
+{{-   $rest = slice $parts 1 | join $sep -}}
+{{- else -}}
+{{- /* first apply: keep existing lines, minus a leading copy of the managed content */ -}}
+{{-   $rest = trimPrefix $managed .chezmoi.stdin -}}
+{{- end -}}
+{{ $managed }}{{ $marker }}
+{{ $rest -}}
